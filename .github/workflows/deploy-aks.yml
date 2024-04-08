@@ -19,13 +19,13 @@ jobs:
         
     - name: Create ACR
       run: |
-        az acr create --name oztestaks --resource-group MyResourceGroup --sku Basic --admin-enabled false
+        az acr create --name oztestaks2 --resource-group MyResourceGroup2 --sku Basic --admin-enabled false
 
     - name: Create AKS Cluster in Private Network
       run: |
-        az group create --name MyResourceGroup --location eastus
-        az aks create --resource-group MyResourceGroup --name MyFirstCluster --node-count 2 --generate-ssh-keys --attach-acr oztestaks --enable-private-cluster
-        az aks get-credentials --resource-group MyResourceGroup --name MyFirstCluster --overwrite-existing
+        az group create --name MyResourceGroup2 --location eastus
+        az aks create --resource-group MyResourceGroup2 --name MySecondCluster --node-count 2 --generate-ssh-keys --attach-acr oztestaks2 --enable-private-cluster
+        az aks get-credentials --resource-group MyResourceGroup2 --name MySecondCluster --overwrite-existing
 
     - name: Install Ingress Controller
       run: |
