@@ -1,0 +1,30 @@
+name: Deploy Traefik Ingress Controller to AKS
+
+on:
+  push:
+    branches:
+      - main  # Adjust this as necessary for your workflow triggers
+
+jobs:
+  deploy-traefik:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Set AKS context
+        run: |
+          az aks get-credentials --resource-group MyResourceGroup4 --name MythirdCluster --overwrite-existing
+
+      - name: Install Traefik Ingress Controller
+        run: |
+          kubectl create namespace traefik
+          kubectl apply -f https://raw.githubusercontent.com/traefik/traefik-helm-chart/master/traefik/crds/ingressroute.yaml
+          kubectl apply -f https://raw.githubusercontent.com/traefik/traefik-helm-chart/master/traefik/crds/middlewares.yaml
+          helm repo add traefik https://helm.traefik.io/traefik
+          helm repo update
+          helm install traefik traefik/traefik --namespace=traefik --set service.type=LoadBalancer
