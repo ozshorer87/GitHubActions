@@ -25,3 +25,8 @@ jobs:
         run: |
           az aks create --resource-group MyResourceGroup4 --name MythirdCluster --node-count 2 --generate-ssh-keys --attach-acr oztestaks3 --enable-private-cluster
           az aks get-credentials --resource-group MyResourceGroup4 --name MythirdCluster --overwrite-existing
+
+      - name: Install NGINX Ingress Controller
+        run: |
+          kubectl create namespace ingress-nginx
+          kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.10.0/deploy/static/provider/cloud/deploy.yaml
