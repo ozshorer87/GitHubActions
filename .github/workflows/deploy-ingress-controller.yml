@@ -1,4 +1,4 @@
-name: Deploy Traefik Ingress Controller to AKS
+name: Deploy NGINX Ingress Controller to AKS
 
 on:
   push:
@@ -18,7 +18,7 @@ jobs:
 
       - name: Set AKS context
         run: |
-          az aks get-credentials --resource-group MyResourceGroup4 --name MythirdCluster --overwrite-existing
+          az aks get-credentials --resource-group MyResourceGroup --name MyFirstCluster --overwrite-existing
 
       - name: Install NGINX Ingress Controller
         run: |
